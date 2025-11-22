@@ -1,0 +1,19 @@
+{
+  "tasks": {
+    "audit": "deno run --allow-net --allow-read --allow-env src/main.ts",
+    "test": "deno test --allow-net --allow-read --allow-env",
+    "dev": "deno run --watch --allow-net --allow-read --allow-env src/main.ts",
+    "build": "npm run build"
+  },
+  "imports": {
+    "ada-url": "npm:ada-url@^2.7.4",
+    "@std/cli": "jsr:@std/cli@^1.0.0",
+    "@std/path": "jsr:@std/path@^1.0.0",
+    "@std/fmt": "jsr:@std/fmt@^1.0.0"
+  },
+  "compilerOptions": {
+    "allowJs": true,
+    "lib": ["deno.window"],
+    "strict": true
+  }
+}

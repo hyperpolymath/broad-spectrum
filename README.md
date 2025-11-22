@@ -1,0 +1,337 @@
+# Broad Spectrum - Website Auditor
+
+A comprehensive CLI website auditor built with ReScript, Deno, and TypeScript. Performs automated security, accessibility, performance, and SEO audits on websites.
+
+## Features
+
+✨ **Comprehensive Auditing**
+- **Link Checking**: Detect broken links, verify external links, track redirects
+- **Accessibility**: WCAG compliance checks (A, AA, AAA levels)
+- **Performance**: Core Web Vitals, page size analysis, resource optimization
+- **SEO**: Meta tags, structured data, content analysis, social media tags
+
+📊 **Multiple Report Formats**
+- Console (human-readable terminal output)
+- JSON (machine-readable, perfect for CI/CD)
+- HTML (beautiful, shareable reports)
+- Markdown (documentation-friendly)
+
+🚀 **High Performance**
+- Async/await architecture for parallel processing
+- Configurable concurrency limits
+- Automatic retry logic with exponential backoff
+- Type-safe ReScript core with zero runtime errors
+
+## Installation
+
+### Prerequisites
+
+1. **Install Deno** (v1.30 or later):
+```bash
+curl -fsSL https://deno.land/install.sh | sh
+```
+
+2. **Install Node.js & npm** (for building ReScript):
+```bash
+# Visit https://nodejs.org/ or use nvm
+nvm install --lts
+```
+
+3. **Install ReScript** (globally):
+```bash
+npm install -g rescript
+```
+
+### Build from Source
+
+```bash
+# Clone the repository
+git clone https://github.com/Hyperpolymath/broad-spectrum.git
+cd broad-spectrum
+
+# Install dependencies
+npm install
+
+# Build the project
+npm run build
+
+# Make the CLI executable
+chmod +x src/main.ts
+```
+
+## Usage
+
+### Basic Usage
+
+```bash
+# Audit a single website
+deno task audit --url https://example.com
+
+# Audit multiple URLs from a file
+deno task audit --file urls.txt
+
+# Specify output format
+deno task audit --url https://example.com --format json
+
+# Save report to file
+deno task audit --url https://example.com --format html > report.html
+```
+
+### Command Line Options
+
+```
+Options:
+  --url <url>              URL to audit (required unless --file is provided)
+  --file <path>            Path to file containing URLs (one per line)
+  --format <format>        Report format: console, json, html, markdown (default: console)
+  --max-depth <n>          Maximum crawl depth (default: 3)
+  --follow-external        Follow external links (default: false)
+  --timeout <ms>           Request timeout in milliseconds (default: 30000)
+  --user-agent <string>    Custom user agent (default: BroadSpectrum-Auditor/1.0)
+  --no-accessibility       Skip accessibility checks
+  --no-performance         Skip performance checks
+  --no-seo                 Skip SEO checks
+  --max-concurrency <n>    Maximum concurrent requests (default: 10)
+  --retry-attempts <n>     Number of retry attempts (default: 3)
+  --retry-delay <ms>       Delay between retries in milliseconds (default: 1000)
+  --verbose                Enable verbose output
+  --version                Show version
+  --help                   Show help message
+```
+
+### Examples
+
+**Comprehensive audit with all checks:**
+```bash
+deno task audit --url https://example.com
+```
+
+**Fast audit skipping performance checks:**
+```bash
+deno task audit --url https://example.com --no-performance
+```
+
+**Audit with increased concurrency for faster execution:**
+```bash
+deno task audit --url https://example.com --max-concurrency 20
+```
+
+**Generate HTML report and save to file:**
+```bash
+deno task audit --url https://example.com --format html > audit-report.html
+```
+
+**Audit multiple websites from a file:**
+```bash
+# Create urls.txt with one URL per line
+echo "https://example.com" > urls.txt
+echo "https://example.org" >> urls.txt
+
+# Audit all URLs
+deno task audit --file urls.txt --format markdown > audit-report.md
+```
+
+**Follow external links (use with caution):**
+```bash
+deno task audit --url https://example.com --follow-external --max-depth 2
+```
+
+## Report Formats
+
+### Console Output
+Human-readable terminal output with colors and formatting:
+```
+================================================================================
+WEBSITE AUDIT REPORT
+================================================================================
+URL: https://example.com
+Overall Score: 87.5/100
+================================================================================
+
+LINK CHECK
+---
+Total Links: 45
+Broken Links: 2
+External Links: 12
+...
+```
+
+### JSON Output
+Machine-readable format for automation:
+```json
+{
+  "url": "https://example.com",
+  "timestamp": "2025-11-22T01:30:00.000Z",
+  "overallScore": 87.5,
+  "linkCheck": {
+    "totalLinks": 45,
+    "brokenLinks": 2,
+    ...
+  },
+  ...
+}
+```
+
+### HTML Output
+Beautiful, shareable reports with styling:
+- Color-coded scores
+- Detailed issue breakdowns
+- Responsive design
+- Print-friendly
+
+### Markdown Output
+Documentation-friendly format:
+```markdown
+# Website Audit Report
+
+**URL:** https://example.com
+**Overall Score:** 87.5/100
+
+## Link Check
+- **Total Links:** 45
+- **Broken Links:** 2
+...
+```
+
+## Architecture
+
+### Technology Stack
+
+- **ReScript**: Type-safe functional language compiling to JavaScript
+- **Deno**: Secure TypeScript/JavaScript runtime
+- **TypeScript**: For Deno bindings and CLI
+- **Native URL API**: Fast WHATWG-compliant URL parsing
+
+### Project Structure
+
+```
+broad-spectrum/
+├── src/                    # ReScript source files
+│   ├── Auditor.res        # Main audit orchestrator
+│   ├── Config.res         # Configuration types
+│   ├── LinkChecker.res    # Link validation
+│   ├── UrlParser.res      # URL parsing logic
+│   ├── Fetcher.res        # HTTP client with retry logic
+│   ├── Accessibility.res  # WCAG compliance checks
+│   ├── Performance.res    # Performance metrics
+│   ├── SEO.res           # SEO analysis
+│   ├── Report.res        # Report generation
+│   ├── main.ts           # CLI entry point (TypeScript)
+│   └── bindings/         # TypeScript/Deno FFI bindings
+├── lib/                   # Compiled JavaScript output
+└── tests/                # Test files
+```
+
+### Key Design Decisions
+
+**Why ReScript?**
+- Compile-time type safety prevents runtime errors
+- Functional patterns eliminate entire classes of bugs
+- Excellent type inference reduces boilerplate
+- Immutable-by-default prevents side effects
+
+**Why Deno?**
+- Secure by default (explicit permissions)
+- Built-in TypeScript support
+- No node_modules bloat
+- Modern ES modules only
+
+**Why Separate Config Module?**
+- Solves circular dependency issues
+- Single source of truth for configuration
+- Shared types across all modules
+
+## Development
+
+### Building
+
+```bash
+# Clean build
+npm run clean
+npm run build
+
+# Watch mode for development
+npm run watch
+```
+
+### Testing
+
+```bash
+# Run all tests
+deno test --allow-net --allow-read
+
+# Run specific test file
+deno test tests/link_checker_test.ts
+
+# Run with coverage
+deno test --coverage
+```
+
+### Code Structure
+
+The project follows a modular architecture:
+
+1. **Config.res**: Defines all configuration types and defaults
+2. **UrlParser.res**: URL parsing and validation
+3. **Fetcher.res**: HTTP client with timeout and retry logic
+4. **LinkChecker.res**: Validates links and detects broken URLs
+5. **Accessibility.res**: WCAG compliance checking
+6. **Performance.res**: Performance metrics collection
+7. **SEO.res**: SEO analysis and recommendations
+8. **Report.res**: Multi-format report generation
+9. **Auditor.res**: Main orchestrator coordinating all checks
+
+## Contributing
+
+Contributions are welcome! Please follow these guidelines:
+
+1. **Code Style**: Follow existing ReScript and TypeScript conventions
+2. **Testing**: Add tests for new features
+3. **Documentation**: Update README and CLAUDE.md
+4. **Commits**: Use conventional commit format (feat:, fix:, docs:, etc.)
+
+## Troubleshooting
+
+### Common Issues
+
+**"deno: command not found"**
+- Install Deno: `curl -fsSL https://deno.land/install.sh | sh`
+- Add to PATH: `export PATH="$HOME/.deno/bin:$PATH"`
+
+**"rescript: command not found"**
+- Install ReScript globally: `npm install -g rescript`
+
+**Build errors**
+- Clean and rebuild: `npm run clean && npm install && npm run build`
+
+**Permission errors when running**
+- Ensure script is executable: `chmod +x src/main.ts`
+- Check Deno permissions: add `--allow-net --allow-read`
+
+## License
+
+MIT License - see LICENSE file for details
+
+## Credits
+
+Built with:
+- [ReScript](https://rescript-lang.org/) - Type-safe functional language
+- [Deno](https://deno.land/) - Secure JavaScript/TypeScript runtime
+- [Native URL API](https://developer.mozilla.org/en-US/docs/Web/API/URL) - WHATWG URL parsing
+
+## Roadmap
+
+Future enhancements:
+- [ ] WebSocket support for real-time monitoring
+- [ ] Database integration for historical tracking
+- [ ] CI/CD integration examples
+- [ ] Docker containerization
+- [ ] Web UI for report viewing
+- [ ] Plugin system for custom checks
+- [ ] Lighthouse integration
+- [ ] Screenshot capture
+- [ ] PDF report generation
+
+---
+
+**Note**: This project was originally a Firefox/Zotero add-on (zotero-voyant-export) and has been completely rebuilt as a standalone CLI tool with modern technologies.
