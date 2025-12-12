@@ -47,7 +47,7 @@ function getUrlType(url, baseUrl) {
 }
 
 function makeAbsolute(url, baseUrl) {
-  if (url.startsWith("http://") || url.startsWith("https://")) {
+  if (url.startsWith("https://") || url.startsWith("https://")) {
     return url;
   }
   var base = AdaTs.parseUrl(baseUrl);

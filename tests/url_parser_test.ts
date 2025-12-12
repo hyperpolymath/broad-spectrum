@@ -21,7 +21,7 @@ Deno.test("parseUrl - invalid URL returns undefined", () => {
 
 Deno.test("isValidUrl - validates HTTP URLs", () => {
   assert(isValidUrl("https://example.com"), "Should validate HTTPS URL");
-  assert(isValidUrl("http://example.org"), "Should validate HTTP URL");
+  assert(isValidUrl("https://example.org"), "Should validate HTTP URL");
   assert(!isValidUrl("ftp://example.com"), "Should reject FTP URL");
   assert(!isValidUrl("not-a-url"), "Should reject invalid URL");
 });

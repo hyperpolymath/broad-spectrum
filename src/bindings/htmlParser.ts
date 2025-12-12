@@ -167,7 +167,7 @@ export function extractLinksFromHtml(html: string, baseUrl: string): string[] {
   // Make URLs absolute
   return links.map((url) => {
     try {
-      if (url.startsWith("http://") || url.startsWith("https://")) {
+      if (url.startsWith("https://") || url.startsWith("https://")) {
         return url;
       }
       const base = new URL(baseUrl);
