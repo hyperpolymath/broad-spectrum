@@ -1,16 +1,19 @@
-Dual License: MIT + Palimpsest v0.8
+SPDX-License-Identifier: MIT OR AGPL-3.0-or-later
+SPDX-FileCopyrightText: 2024-2025 hyperpolymath
 
-This software is licensed under EITHER:
-- MIT License (below), OR
-- Palimpsest License v0.8 (below)
+================================================================================
+DUAL LICENSE: MIT OR AGPL-3.0-or-later
+================================================================================
 
-You may choose which license to use.
+This project is dual-licensed under the MIT License OR the GNU Affero General
+Public License v3.0 or later. You may choose to use, copy, modify, and
+distribute this work under the terms of EITHER license (your choice).
 
-==============================================================================
-MIT License
-==============================================================================
+--------------------------------------------------------------------------------
+MIT LICENSE
+--------------------------------------------------------------------------------
 
-Copyright (c) 2025 Hyperpolymath
+Copyright (c) 2024-2025 hyperpolymath
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -30,83 +33,59 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-==============================================================================
-Palimpsest License v0.8
-==============================================================================
+--------------------------------------------------------------------------------
+GNU AFFERO GENERAL PUBLIC LICENSE v3.0 OR LATER
+--------------------------------------------------------------------------------
 
-SPDX-License-Identifier: Palimpsest-0.8
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU Affero General Public License as published by the Free
+Software Foundation, either version 3 of the License, or (at your option) any
+later version.
 
-## Core Freedoms
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more
+details.
 
-You are free to:
-- **Use** this software for any purpose
-- **Study** how it works and modify it
-- **Share** copies with others
-- **Improve** and distribute your improvements
+You should have received a copy of the GNU Affero General Public License along
+with this program. If not, see <https://www.gnu.org/licenses/>.
 
-## Ethical Constraints
+The full text of the AGPL-3.0 is available at:
+  https://www.gnu.org/licenses/agpl-3.0.txt
 
-You may NOT use this software to:
-- Violate human rights or dignity
-- Facilitate surveillance capitalism
-- Support authoritarian regimes
-- Harm the environment
-- Exploit vulnerable populations
-- Enable discrimination
+--------------------------------------------------------------------------------
+CHOOSING YOUR LICENSE
+--------------------------------------------------------------------------------
 
-## Technical Requirements
+You may choose to use this work under:
+  1. MIT License - Standard permissive open source license
+  2. AGPL-3.0-or-later - Copyleft license requiring source disclosure for
+     network services
 
-1. **Attribution**: Credit the original authors
-2. **Source Availability**: Provide source code for modifications
-3. **Share-Alike**: Derivative works use this license
-4. **Patent Grant**: No patent claims against users
+For most uses, MIT License provides maximum flexibility.
+For ensuring open source remains open (especially for SaaS/network services),
+AGPL-3.0-or-later provides stronger protections.
 
-## Governance
+================================================================================
+PALIMPSEST PHILOSOPHICAL OVERLAY (NON-BINDING)
+================================================================================
 
-- **Decentralization**: No central authority required
-- **Community**: Decisions via consensus where possible
-- **Transparency**: Changes publicly documented
-- **Reversibility**: Mistakes can be undone
+This project encourages (but does not legally require) adherence to the
+principles of the Palimpsest License - a framework for consent-based digital
+interaction and the future web.
 
-## Commercial Use
+Core Principles (Encouraged):
+  - Respect for emotional and creative lineage
+  - Transparent AI training practices with explicit consent
+  - Preservation of metadata and attribution
+  - Protection of narrative intent and cultural context
 
-- **Permitted**: Commercial use is allowed
-- **Restrictions**: Must follow ethical constraints
-- **Contributions**: Improvements should be shared back
-- **Support**: Commercial support is encouraged
+The Palimpsest principles represent our vision for a consent-based internet.
+While not legally binding for use of this software, we encourage all users
+and contributors to familiarize themselves with these principles.
 
-## Warranty Disclaimer
+Learn more: https://github.com/hyperpolymath/palimpsest-license
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-## Jurisdiction
-
-This license is governed by principles of international law and human rights,
-not any specific national jurisdiction.
-
-## Version
-
-Palimpsest License v0.8
-Published: 2025
-Maintained by: Hyperpolymath Community
-Full Text: https://github.com/hyperpolymath/licenses/palimpsest/v0.8
-
-## Notes
-
-The Palimpsest License is designed for politically autonomous software that
-respects human dignity while remaining free and open source. It combines
-ethical software principles with practical open source freedoms.
-
-Choose the MIT License if you prefer traditional permissive licensing.
-Choose the Palimpsest License if you want ethical constraints.
-
-==============================================================================
-
-For questions about licensing, contact: legal@hyperpolymath.org
+================================================================================
+END OF LICENSE
+================================================================================
