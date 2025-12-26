@@ -1,55 +1,23 @@
 // Accessibility.res - WCAG compliance checks
+// Re-exports from AccessibilityImpl (pure ReScript implementation)
 
 @genType
-type wcagLevel = A | AA | AAA
+type wcagLevel = AccessibilityImpl.wcagLevel
 
 @genType
-type accessibilityIssue = {
-  rule: string,
-  level: wcagLevel,
-  message: string,
-  element: option<string>,
-  selector: option<string>,
-  impact: string, // "critical", "serious", "moderate", "minor"
-}
+type accessibilityIssue = AccessibilityImpl.accessibilityIssue
 
 @genType
-type accessibilityResult = {
-  score: float, // 0-100
-  violations: array<accessibilityIssue>,
-  warnings: array<accessibilityIssue>,
-  passes: int,
-  incomplete: int,
-  wcagLevel: wcagLevel,
-}
-
-// External binding to accessibility checker (via TypeScript)
-@module("./bindings/a11y.ts")
-external checkAccessibility: (string, string) => promise<accessibilityResult> = "checkAccessibility"
+type accessibilityResult = AccessibilityImpl.accessibilityResult
 
 @genType
-let check = async (html: string, url: string): accessibilityResult => {
-  await checkAccessibility(html, url)
-}
+let check = AccessibilityImpl.checkAccessibility
 
 @genType
-let levelToString = (level: wcagLevel): string => {
-  switch level {
-  | A => "A"
-  | AA => "AA"
-  | AAA => "AAA"
-  }
-}
+let levelToString = AccessibilityImpl.levelToString
 
 @genType
-let levelFromString = (str: string): option<wcagLevel> => {
-  switch String.toUpperCase(str) {
-  | "A" => Some(A)
-  | "AA" => Some(AA)
-  | "AAA" => Some(AAA)
-  | _ => None
-  }
-}
+let levelFromString = AccessibilityImpl.levelFromString
 
 @genType
 let filterByLevel = (issues: array<accessibilityIssue>, level: wcagLevel): array<accessibilityIssue> => {

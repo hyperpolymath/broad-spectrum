@@ -1,4 +1,5 @@
 // Report.res - Report generation in multiple formats
+// Uses ReportImpl (pure ReScript implementation)
 
 @genType
 type auditReport = {
@@ -9,18 +10,8 @@ type auditReport = {
   performance: option<Performance.performanceResult>,
   seo: option<SEO.seoResult>,
   overallScore: float,
-  executionTime: float, // milliseconds
+  executionTime: float,
 }
-
-// External binding to report formatters (via TypeScript)
-@module("./bindings/report.ts")
-external formatAsJSON: auditReport => string = "formatAsJSON"
-
-@module("./bindings/report.ts")
-external formatAsHTML: auditReport => promise<string> = "formatAsHTML"
-
-@module("./bindings/report.ts")
-external formatAsMarkdown: auditReport => string = "formatAsMarkdown"
 
 @genType
 let calculateOverallScore = (
@@ -95,7 +86,7 @@ let create = (
 
   {
     url,
-    timestamp: Date.now()->Float.toString,
+    timestamp: DenoBindings.Date.now()->Float.toString,
     linkCheck,
     accessibility,
     performance,
@@ -107,7 +98,7 @@ let create = (
 
 @genType
 let formatConsole = (report: auditReport): string => {
-  let lines = []
+  let lines: array<string> = []
 
   // Header
   Array.push(lines, "\n" ++ String.repeat("=", 80))->ignore
@@ -254,8 +245,8 @@ let formatConsole = (report: auditReport): string => {
 let format = async (report: auditReport, format: Config.reportFormat): string => {
   switch format {
   | Console => formatConsole(report)
-  | JSON => formatAsJSON(report)
-  | HTML => await formatAsHTML(report)
-  | Markdown => formatAsMarkdown(report)
+  | JSON => ReportImpl.formatAsJSON(report)
+  | HTML => await ReportImpl.formatAsHTML(report)
+  | Markdown => ReportImpl.formatAsMarkdown(report)
   }
 }

@@ -1,6 +1,6 @@
 = Broad Spectrum - Website Auditor
 
-A comprehensive CLI website auditor built with ReScript, Deno, and TypeScript. Performs automated security, accessibility, performance, and SEO audits on websites.
+A comprehensive CLI website auditor built with ReScript and Deno. Performs automated security, accessibility, performance, and SEO audits on websites.
 
 == Features
 
@@ -197,29 +197,39 @@ Documentation-friendly format:
 
 === Technology Stack
 
-- *ReScript*: Type-safe functional language compiling to JavaScript
-- *Deno*: Secure TypeScript/JavaScript runtime
-- *TypeScript*: For Deno bindings and CLI
-- *Native URL API*: Fast WHATWG-compliant URL parsing
+- *ReScript*: Type-safe functional language compiling to JavaScript (100% of application code)
+- *Deno*: Secure JavaScript runtime (no Node.js runtime dependencies)
+- *Native Web APIs*: URL, fetch, AbortController via Deno
+- *just*: Task runner (replaces Makefile)
+- *Nickel*: Configuration contracts (`Mustfile.ncl`)
 
 === Project Structure
 
 ```
 broad-spectrum/
 ├── src/                    # ReScript source files
+│   ├── Main.res           # CLI entry point
 │   ├── Auditor.res        # Main audit orchestrator
 │   ├── Config.res         # Configuration types
+│   ├── DenoBindings.res   # Deno/Web API bindings
+│   ├── UrlParser.res      # URL parsing (facade)
+│   ├── UrlParserImpl.res  # URL parsing implementation
+│   ├── Fetcher.res        # HTTP client (facade)
+│   ├── FetcherImpl.res    # HTTP implementation
 │   ├── LinkChecker.res    # Link validation
-│   ├── UrlParser.res      # URL parsing logic
-│   ├── Fetcher.res        # HTTP client with retry logic
-│   ├── Accessibility.res  # WCAG compliance checks
-│   ├── Performance.res    # Performance metrics
-│   ├── SEO.res           # SEO analysis
-│   ├── Report.res        # Report generation
-│   ├── main.ts           # CLI entry point (TypeScript)
-│   └── bindings/         # TypeScript/Deno FFI bindings
+│   ├── Accessibility.res  # WCAG compliance (facade)
+│   ├── AccessibilityImpl.res # A11y implementation
+│   ├── Performance.res    # Performance metrics (facade)
+│   ├── HtmlParserImpl.res # HTML/performance implementation
+│   ├── SEO.res           # SEO analysis (facade)
+│   ├── SeoParserImpl.res # SEO implementation
+│   ├── Report.res        # Report generation (facade)
+│   └── ReportImpl.res    # Report implementation
+├── tests/                 # ReScript test files
 ├── lib/                   # Compiled JavaScript output
-└── tests/                # Test files
+├── justfile              # Task runner
+├── Mustfile.ncl          # Nickel configuration contract
+└── deno.json             # Deno task definitions
 ```
 
 === Key Design Decisions
@@ -246,25 +256,24 @@ broad-spectrum/
 === Building
 
 ```bash
-= Clean build
-npm run clean
-npm run build
+# Install dependencies (ReScript compiler)
+npm install
 
-= Watch mode for development
-npm run watch
+# Build the project
+just build
+
+# Watch mode for development
+just watch
 ```
 
 === Testing
 
 ```bash
-= Run all tests
-deno test --allow-net --allow-read
+# Run all tests
+just test
 
-= Run specific test file
-deno test tests/link_checker_test.ts
-
-= Run with coverage
-deno test --coverage
+# Run quality checks
+just check
 ```
 
 === Code Structure
@@ -285,10 +294,14 @@ The project follows a modular architecture:
 
 Contributions are welcome! Please follow these guidelines:
 
-1. *Code Style*: Follow existing ReScript and TypeScript conventions
-2. *Testing*: Add tests for new features
-3. *Documentation*: Update README and CLAUDE.md
-4. *Commits*: Use conventional commit format (feat:, fix:, docs:, etc.)
+1. *Language Policy*: Use ReScript only (no TypeScript)
+2. *Runtime*: Deno only (no npm/bun runtime deps)
+3. *Build System*: Use justfile (no Makefile)
+4. *Testing*: Add tests for new features
+5. *Documentation*: Update README and CLAUDE.md
+6. *Commits*: Use conventional commit format (feat:, fix:, docs:, etc.)
+
+See `.claude/CLAUDE.md` for the complete language policy.
 
 == Troubleshooting
 

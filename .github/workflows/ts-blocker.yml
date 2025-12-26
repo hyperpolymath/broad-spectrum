@@ -5,15 +5,45 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Block new TypeScript/JavaScript
+      - name: Block TypeScript/JavaScript files
         run: |
+          # Check for any TypeScript files (except generated .gen.tsx files)
+          TS_FILES=$(find . -type f \( -name "*.ts" -o -name "*.tsx" \) \
+            ! -path "./node_modules/*" \
+            ! -name "*.gen.tsx" \
+            2>/dev/null || true)
+
+          # Check for any JavaScript files (except ReScript-generated .js files in src/)
+          JS_FILES=$(find . -type f \( -name "*.js" -o -name "*.jsx" -o -name "*.mjs" -o -name "*.cjs" \) \
+            ! -path "./node_modules/*" \
+            ! -path "./lib/*" \
+            ! -path "./src/*.js" \
+            2>/dev/null || true)
+
+          # Check for new TS/JS in commits
           NEW_TS=$(git diff --name-only --diff-filter=A HEAD~1 2>/dev/null | grep -E '\.(ts|tsx)$' | grep -v '\.gen\.' || true)
-          NEW_JS=$(git diff --name-only --diff-filter=A HEAD~1 2>/dev/null | grep -E '\.(js|jsx)$' | grep -v '\.res\.js$' | grep -v '\.gen\.' | grep -v 'node_modules' || true)
-          
+          NEW_JS=$(git diff --name-only --diff-filter=A HEAD~1 2>/dev/null | grep -E '\.(js|jsx|mjs|cjs)$' | grep -v 'node_modules' || true)
+
+          HAS_VIOLATIONS=false
+
+          if [ -n "$TS_FILES" ]; then
+            echo "TypeScript files detected (should use ReScript):"
+            echo "$TS_FILES"
+            HAS_VIOLATIONS=true
+          fi
+
           if [ -n "$NEW_TS" ] || [ -n "$NEW_JS" ]; then
-            echo "❌ New TS/JS files detected. Use ReScript instead."
+            echo "New TS/JS files added in this commit:"
             [ -n "$NEW_TS" ] && echo "$NEW_TS"
             [ -n "$NEW_JS" ] && echo "$NEW_JS"
+            HAS_VIOLATIONS=true
+          fi
+
+          if [ "$HAS_VIOLATIONS" = true ]; then
+            echo ""
+            echo "POLICY: Use ReScript instead of TypeScript/JavaScript"
+            echo "See .claude/CLAUDE.md for language policy details"
             exit 1
           fi
-          echo "✅ ReScript policy enforced"
+
+          echo "ReScript-only policy enforced successfully"

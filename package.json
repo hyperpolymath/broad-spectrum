@@ -1,29 +1,13 @@
 {
   "name": "broad-spectrum",
   "version": "1.0.0",
-  "description": "A comprehensive CLI website auditor for security, accessibility, performance, and SEO",
-  "main": "lib/es6/src/Auditor.js",
-  "type": "module",
+  "private": true,
+  "description": "ReScript build dependencies only - runtime uses Deno",
   "scripts": {
     "build": "rescript build",
-    "watch": "rescript build -w",
     "clean": "rescript clean",
-    "test": "deno test --allow-net --allow-read",
-    "audit": "deno run --allow-net --allow-read src/main.ts"
+    "watch": "rescript build -w"
   },
-  "keywords": [
-    "website-auditor",
-    "accessibility",
-    "performance",
-    "seo",
-    "security",
-    "broken-links",
-    "wcag",
-    "cli"
-  ],
-  "author": "Hyperpolymath",
-  "license": "MIT",
-  "dependencies": {},
   "devDependencies": {
     "@rescript/core": "^1.5.0",
     "gentype": "^4.5.0",

@@ -1,50 +1,25 @@
 // SEO.res - SEO analysis and recommendations
+// Uses SeoParserImpl (pure ReScript implementation)
 
 @genType
-type metaTag = {
-  name: string,
-  content: string,
-}
+type metaTag = SeoParserImpl.metaTag
 
 @genType
 type seoIssue = {
-  severity: string, // "error", "warning", "info"
+  severity: string,
   message: string,
   element: option<string>,
 }
 
 @genType
-type seoData = {
-  title: option<string>,
-  description: option<string>,
-  keywords: option<string>,
-  canonical: option<string>,
-  ogTags: Dict.t<string>,
-  twitterTags: Dict.t<string>,
-  metaTags: array<metaTag>,
-  headings: Dict.t<array<string>>, // h1, h2, h3, etc.
-  images: int,
-  imagesWithAlt: int,
-  links: int,
-  internalLinks: int,
-  externalLinks: int,
-  wordCount: int,
-  lang: option<string>,
-  viewport: option<string>,
-  robots: option<string>,
-  structuredData: bool,
-}
+type seoData = SeoParserImpl.seoData
 
 @genType
 type seoResult = {
   data: seoData,
   issues: array<seoIssue>,
-  score: float, // 0-100
+  score: float,
 }
-
-// External binding to SEO analyzer (via TypeScript)
-@module("./bindings/seoParser.ts")
-external analyzeSEO: (string, string) => promise<seoData> = "analyzeSEO"
 
 // Helper function to calculate SEO score
 let calculateScore = (data: seoData, issues: array<seoIssue>): float => {
@@ -85,8 +60,8 @@ let calculateScore = (data: seoData, issues: array<seoIssue>): float => {
 
 @genType
 let analyze = async (html: string, url: string): seoResult => {
-  let data = await analyzeSEO(html, url)
-  let issues = []
+  let data = await SeoParserImpl.analyzeSEO(html, url)
+  let issues: array<seoIssue> = []
 
   // Check title
   switch data.title {

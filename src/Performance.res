@@ -1,36 +1,11 @@
 // Performance.res - Performance metrics collection
+// Re-exports from HtmlParserImpl (pure ReScript implementation)
 
 @genType
-type resourceTiming = {
-  url: string,
-  resourceType: string, // "script", "stylesheet", "image", "font", etc.
-  size: int, // bytes
-  transferSize: int, // bytes (after compression)
-  duration: float, // milliseconds
-}
+type resourceTiming = HtmlParserImpl.resourceTiming
 
 @genType
-type performanceMetrics = {
-  // Core Web Vitals
-  firstContentfulPaint: option<float>, // milliseconds
-  largestContentfulPaint: option<float>, // milliseconds
-  cumulativeLayoutShift: option<float>, // score
-  firstInputDelay: option<float>, // milliseconds
-  timeToInteractive: option<float>, // milliseconds
-
-  // Page Load Metrics
-  domContentLoaded: float, // milliseconds
-  loadComplete: float, // milliseconds
-  totalPageSize: int, // bytes
-  totalTransferSize: int, // bytes
-  resourceCount: int,
-
-  // Resource Breakdown
-  resources: array<resourceTiming>,
-
-  // Performance Score
-  score: float, // 0-100
-}
+type performanceMetrics = HtmlParserImpl.performanceMetrics
 
 @genType
 type performanceResult = {
@@ -39,16 +14,12 @@ type performanceResult = {
   warnings: array<string>,
 }
 
-// External binding to performance analyzer (via TypeScript)
-@module("./bindings/htmlParser.ts")
-external analyzePerformance: (string, string) => promise<performanceMetrics> = "analyzePerformance"
-
 @genType
 let analyze = async (html: string, url: string): performanceResult => {
-  let metrics = await analyzePerformance(html, url)
+  let metrics = await HtmlParserImpl.analyzePerformance(html, url)
 
-  let suggestions = []
-  let warnings = []
+  let suggestions: array<string> = []
+  let warnings: array<string> = []
 
   // Generate suggestions based on metrics
   if metrics.totalPageSize > 3_000_000 {
@@ -84,15 +55,6 @@ let analyze = async (html: string, url: string): performanceResult => {
       }
     }
   | None => ()
-  }
-
-  // Check for blocking resources
-  let blockingScripts = metrics.resources
-    ->Array.filter(r => r.resourceType === "script" && !String.includes(r.url, "async") && !String.includes(r.url, "defer"))
-    ->Array.length
-
-  if blockingScripts > 0 {
-    Array.push(suggestions, `${Int.toString(blockingScripts)} blocking scripts found. Use async/defer attributes.`)->ignore
   }
 
   {
